@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — KAID: Kids AI Dojo</title>
+    <meta name="description" content="KAID privacy policy. We collect no personal data, show no ads, and use no tracking. Safe and private by design.">
+    <link rel="icon" type="image/png" href="assets/triveer-logo.png">
+    <link rel="apple-touch-icon" href="assets/kaid-logo.png">
+    <link rel="canonical" href="https://triveer.ai/privacy.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:          #000814;
+            --cyan:        #00F7FF;
+            --green:       #38FF12;
+            --magenta:     #FF40A6;
+            --orange:      #FF5F1F;
+            --purple:      #B34DFF;
+            --yellow:      #FDFF00;
+            --card-bg:     rgba(255,255,255,0.05);
+            --card-border: rgba(255,255,255,0.10);
+            --text:        #ffffff;
+            --muted:       rgba(255,255,255,0.58);
+            --dim:         rgba(255,255,255,0.28);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            height: 64px;
+            background: rgba(0,8,20,0.85);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo-img {
+            height: 34px;
+            width: 34px;
+            object-fit: contain;
+        }
+
+        @keyframes rainbow-flow {
+            0%   { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .nav-rainbow {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(90deg,
+                #00F7FF, #38FF12, #FDFF00, #FF5F1F, #FF40A6, #B34DFF, #00F7FF
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbow-flow 5s linear infinite;
+            white-space: nowrap;
+        }
+        .nav-rainbow .nav-kaid { font-weight: 800; font-size: 1.1rem; }
+        .nav-rainbow .nav-sep  { font-weight: 400; font-size: 0.82rem; opacity: 0.6; }
+        .nav-rainbow .nav-sub  { font-weight: 700; font-size: 0.88rem; }
+
+        .nav-powered {
+            font-size: 0.58rem;
+            color: var(--dim);
+            letter-spacing: 0.04em;
+            margin-top: 1px;
+        }
+
+        .nav-back {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 100px;
+            padding: 7px 18px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .nav-back:hover { color: var(--cyan); border-color: var(--cyan); }
+
+        /* ── HERO BANNER ── */
+        .pp-hero {
+            text-align: center;
+            padding: 80px 24px 56px;
+            background: linear-gradient(180deg, rgba(0,247,255,0.04) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .pp-label {
+            display: inline-block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--cyan);
+            border: 1px solid rgba(0,247,255,0.28);
+            border-radius: 100px;
+            padding: 5px 16px;
+            margin-bottom: 20px;
+        }
+
+        .pp-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 14px;
+            background: linear-gradient(90deg,
+                #00F7FF, #38FF12, #FDFF00, #FF5F1F, #FF40A6, #B34DFF, #00F7FF
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbow-flow 5s linear infinite;
+            animation-delay: -1s;
+        }
+
+        .pp-date {
+            font-size: 0.82rem;
+            color: var(--dim);
+        }
+
+        /* ── CONTENT ── */
+        .pp-content {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 56px 24px 100px;
+        }
+
+        /* tl;dr card */
+        .tldr-card {
+            background: linear-gradient(135deg, rgba(0,247,255,0.07), rgba(56,255,18,0.04));
+            border: 1px solid rgba(0,247,255,0.22);
+            border-radius: 20px;
+            padding: 32px 36px;
+            margin-bottom: 56px;
+        }
+
+        .tldr-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 10px;
+        }
+
+        .tldr-card p {
+            color: var(--muted);
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+
+        .tldr-card ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tldr-card li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+
+        .tldr-card li span.icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* sections */
+        .pp-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 28px 32px;
+            margin-bottom: 16px;
+            transition: border-color 0.3s;
+        }
+        .pp-section:hover { border-color: rgba(0,247,255,0.2); }
+
+        .pp-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(90deg,
+                #00F7FF, #38FF12, #FDFF00, #FF5F1F, #FF40A6, #B34DFF, #00F7FF
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbow-flow 5s linear infinite;
+        }
+        .pp-section:nth-child(2) h2 { animation-delay: -1s; }
+        .pp-section:nth-child(3) h2 { animation-delay: -2s; }
+        .pp-section:nth-child(4) h2 { animation-delay: -3s; }
+        .pp-section:nth-child(5) h2 { animation-delay: -4s; }
+
+        .pp-section p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.75;
+        }
+
+        /* contact links */
+        .pp-section a {
+            color: var(--cyan);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(0,247,255,0.3);
+            transition: border-color 0.2s;
+        }
+        .pp-section a:hover { border-color: var(--cyan); }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.07);
+            padding: 28px 32px;
+            text-align: center;
+        }
+        .foot-copy {
+            font-size: 0.76rem;
+            color: var(--dim);
+        }
+        .foot-copy a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+        .foot-copy a:hover { color: var(--cyan); }
+
+        @media (max-width: 600px) {
+            nav { padding: 0 18px; }
+            .pp-hero { padding: 56px 18px 40px; }
+            .tldr-card { padding: 24px 20px; }
+            .pp-section { padding: 22px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="index.html" class="nav-brand">
+        <img src="assets/kaid-logo.png" alt="KAID Logo" class="nav-logo-img">
+        <div>
+            <div>
+                <span class="nav-rainbow">
+                    <span class="nav-kaid">KAID</span>
+                    <span class="nav-sep"> · </span>
+                    <span class="nav-sub">Kids AI Dojo</span>
+                </span>
+            </div>
+            <div class="nav-powered">by TriVeer.AI</div>
+        </div>
+    </a>
+    <a href="index.html" class="nav-back">← Back to Home</a>
+</nav>
+
+<!-- HERO -->
+<div class="pp-hero">
+    <div class="pp-label">🔒 Legal</div>
+    <h1 class="pp-title">Privacy Policy</h1>
+    <p class="pp-date">Last Updated: February 18, 2026</p>
+</div>
+
+<!-- CONTENT -->
+<div class="pp-content">
+
+    <!-- tl;dr -->
+    <div class="tldr-card">
+        <h3>tl;dr for Parents</h3>
+        <p><strong style="color:var(--text)">Kids AI Dojo (KAID)</strong> is designed to be completely safe and private.</p>
+        <ul>
+            <li><span class="icon">🚫</span><span>We do <strong>NOT</strong> collect any personal information.</span></li>
+            <li><span class="icon">🚫</span><span>We do <strong>NOT</strong> use any analytics or tracking.</span></li>
+            <li><span class="icon">🚫</span><span>We do <strong>NOT</strong> show ads.</span></li>
+            <li><span class="icon">🚫</span><span>We do <strong>NOT</strong> share any sensitive data with third parties.</span></li>
+        </ul>
+    </div>
+
+    <!-- Sections -->
+    <div class="pp-section">
+        <h2>1. Information Collection</h2>
+        <p>We do not collect, store, or share any personal information from children or adults. No sensitive data leaves the app.</p>
+    </div>
+
+    <div class="pp-section">
+        <h2>2. App Data</h2>
+        <p>Any progress, stars, or trophies earned in the app are saved within the app on your device. Uninstalling the app will remove this saved data.</p>
+    </div>
+
+    <div class="pp-section">
+        <h2>3. AI &amp; Voice Features</h2>
+        <p>Your child's interactions within the app are never shared with or transmitted to any third party. All voice recordings made using the Personal Voice feature stay entirely on your device and are never uploaded anywhere.</p>
+    </div>
+
+    <div class="pp-section">
+        <h2>4. External Links</h2>
+        <p>The app contains links to this privacy policy and support pages in the Parents Area. These links are protected by a Parental Gate to ensure children do not inadvertently access the web.</p>
+    </div>
+
+    <div class="pp-section">
+        <h2>5. Contact Us</h2>
+        <p>If you have any questions about this privacy policy, please contact us at <a href="mailto:kaid@triveer.ai">kaid@triveer.ai</a></p>
+        <p style="margin-top:12px">To report technical issues, please visit our <a href="https://github.com/triveer-ai/kaid-public/issues" target="_blank" rel="noopener">issue tracker on GitHub</a>.</p>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px">
+        <img src="assets/kaid-logo.png" alt="KAID" style="height:32px;width:32px;object-fit:contain">
+        <span class="nav-rainbow">
+            <span class="nav-kaid">KAID</span>
+            <span class="nav-sep"> · </span>
+            <span class="nav-sub">Kids AI Dojo</span>
+        </span>
+    </div>
+    <p class="foot-copy">© 2026 TriVeer.AI · <a href="index.html">Home</a> · <a href="mailto:kaid@triveer.ai">kaid@triveer.ai</a></p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,2700 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAID: Kids AI Dojo — Build Human Skills for the AI Era</title>
+    <meta name="description"
+        content="iPhone & iPad app launching 13 Mar 2026 on the Apple App Store. Help your child master the human skills AI can never replace. 54 fun adventures across 9 skill categories. Safe, private, designed for kids 6+.">
+    <link rel="icon" type="image/png" href="assets/triveer-logo.png">
+    <link rel="apple-touch-icon" href="assets/kaid-logo.png">
+    <meta property="og:title" content="KAID: Kids AI Dojo — Build Human Skills for the AI Era">
+    <meta property="og:description"
+        content="Launching 13 Mar 2026 on the Apple App Store. 54 interactive adventures for iPhone & iPad helping kids 6+ build confidence, empathy, creativity and critical thinking for the AI generation.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://triveer.ai">
+    <meta property="og:image" content="https://triveer.ai/assets/kaid-logo.png">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1024">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="KAID: Kids AI Dojo — Build Human Skills for the AI Era">
+    <meta name="twitter:description" content="Launching 13 Mar 2026 on the Apple App Store. 54 interactive adventures for kids 6+ to master human skills AI can never replace.">
+    <meta name="twitter:image" content="https://triveer.ai/assets/kaid-logo.png">
+    <link rel="canonical" href="https://triveer.ai">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ===== VARIABLES ===== */
+        :root {
+            --bg: #000814;
+            --cyan: #00F7FF;
+            --green: #38FF12;
+            --magenta: #FF40A6;
+            --yellow: #FDFF00;
+            --orange: #FF5F1F;
+            --purple: #B34DFF;
+            --card-bg: rgba(255, 255, 255, 0.06);
+            --card-border: rgba(255, 255, 255, 0.11);
+            --text: #ffffff;
+            --muted: rgba(255, 255, 255, 0.58);
+            --dim: rgba(255, 255, 255, 0.30);
+        }
+
+        /* ===== RESET ===== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.65;
+        }
+
+        canvas#stars {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        section,
+        nav,
+        footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .label {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4.5vw, 3.2rem);
+            margin-bottom: 18px;
+        }
+
+        .section-sub {
+            font-size: 1.05rem;
+            color: var(--muted);
+            max-width: 580px;
+            margin: 0 auto 56px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .grad-cyan,
+        .grad-pink,
+        .grad-yellow {
+            background: linear-gradient(90deg,
+                #00F7FF, #38FF12, #FDFF00, #FF5F1F, #FF40A6, #B34DFF, #00F7FF
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbow-flow 5s linear infinite;
+        }
+
+        .grad-pink  { animation-delay: -1.6s; }
+        .grad-yellow { animation-delay: -3.3s; }
+
+        /* ===== LAYOUT ===== */
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 96px 0;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 15px 30px;
+            border-radius: 100px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyan), var(--green));
+            color: #000814;
+            box-shadow: 0 0 36px rgba(0, 247, 255, 0.28);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 56px rgba(0, 247, 255, 0.45);
+        }
+
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.07);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .btn-pro {
+            background: linear-gradient(135deg, var(--magenta), var(--orange));
+            color: #fff;
+            box-shadow: 0 0 36px rgba(255, 64, 166, 0.28);
+        }
+
+        .btn-pro:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 56px rgba(255, 64, 166, 0.45);
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 8, 20, 0.82);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-bottom: 1px solid rgba(0, 247, 255, 0.09);
+            transition: background 0.3s;
+        }
+
+        nav.scrolled {
+            background: rgba(0, 8, 20, 0.97);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo-img {
+            height: 38px;
+            width: 38px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .nav-brand-row {
+            display: flex;
+            align-items: baseline;
+            white-space: nowrap;
+        }
+
+        @keyframes rainbow-flow {
+            0%   { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .nav-rainbow {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(90deg,
+                #00F7FF, #38FF12, #FDFF00, #FF5F1F, #FF40A6, #B34DFF, #00F7FF
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbow-flow 5s linear infinite;
+        }
+
+        .nav-rainbow .nav-kaid {
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .nav-rainbow .nav-sep {
+            font-weight: 400;
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        .nav-rainbow .nav-sub {
+            font-weight: 700;
+            font-size: 0.92rem;
+        }
+
+        .nav-powered {
+            font-size: 0.6rem;
+            color: var(--dim);
+            letter-spacing: 0.04em;
+            margin-top: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+
+        /* Prevent nav link colour rules from bleeding into the CTA button */
+        .nav-links a.btn-primary,
+        .nav-links a.btn-primary:hover {
+            color: #000814;
+        }
+
+        .nav-cta {
+            padding: 9px 22px;
+            font-size: 0.85rem;
+        }
+
+        .nav-mobile {
+            display: none;
+        }
+
+        /* ===== MOBILE HAMBURGER ===== */
+        .nav-ham {
+            display: none;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 1.15rem;
+            padding: 6px 13px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            line-height: 1;
+        }
+        .nav-ham:hover { background: rgba(255,255,255,0.12); }
+        .nav-ham.open { color: var(--cyan); border-color: rgba(0,247,255,0.4); }
+
+        .nav-mobile-menu {
+            display: none;
+            position: fixed;
+            top: 68px;
+            left: 0; right: 0;
+            background: rgba(0,8,20,0.97);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 8px 28px 20px;
+            z-index: 199;
+            flex-direction: column;
+        }
+        .nav-mobile-menu.open { display: flex; }
+
+        .nmm-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            transition: color 0.2s;
+        }
+        .nmm-link:last-child { border-bottom: none; }
+        .nmm-link:hover { color: var(--cyan); }
+        .nmm-cta {
+            color: var(--cyan);
+            font-size: 1rem;
+            padding-top: 18px;
+        }
+
+        /* ===== HERO ===== */
+        #hero {
+            padding: 158px 0 96px;
+            overflow: hidden;
+        }
+
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1fr 480px;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 247, 255, 0.09);
+            border: 1px solid rgba(0, 247, 255, 0.28);
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--cyan);
+            margin-bottom: 22px;
+        }
+
+        .hero-badge .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--cyan);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(1.3);
+            }
+        }
+
+        .hero-h1 {
+            font-size: clamp(2.4rem, 4.8vw, 3.9rem);
+            letter-spacing: -0.02em;
+            margin-bottom: 22px;
+        }
+
+        .hero-sub {
+            font-size: 1.12rem;
+            color: var(--muted);
+            margin-bottom: 38px;
+            line-height: 1.72;
+            max-width: 520px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 0;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 0 28px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat:first-child {
+            padding-left: 0;
+        }
+
+        .stat:last-child {
+            border-right: none;
+        }
+
+        .stat-val {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: linear-gradient(90deg,
+                #00F7FF, #38FF12, #FDFF00, #FF5F1F, #FF40A6, #B34DFF, #00F7FF
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbow-flow 5s linear infinite;
+            animation-delay: -2.5s;
+        }
+
+        .stat-lbl {
+            font-size: 0.75rem;
+            color: var(--dim);
+            font-weight: 500;
+        }
+
+        /* ===== PHONE MOCKUP ===== */
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 600px;
+        }
+
+        .phone-outer {
+            position: relative;
+            width: 285px;
+            filter: drop-shadow(0 0 70px rgba(0, 247, 255, 0.16));
+        }
+
+        .phone-frame {
+            width: 285px;
+            height: 590px;
+            background: #080e1c;
+            border-radius: 46px;
+            border: 2px solid rgba(0, 247, 255, 0.25);
+            overflow: hidden;
+            position: relative;
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+                0 0 0 14px rgba(0, 247, 255, 0.03);
+        }
+
+        .phone-notch {
+            width: 110px;
+            height: 30px;
+            background: #080e1c;
+            border-radius: 0 0 22px 22px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ps-bar {
+            padding: 44px 16px 10px;
+            background: rgba(0, 247, 255, 0.04);
+            border-bottom: 1px solid rgba(0, 247, 255, 0.09);
+        }
+
+        .ps-bar-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--cyan);
+        }
+
+        .ps-bar-sub {
+            font-size: 9.5px;
+            color: rgba(255, 255, 255, 0.38);
+        }
+
+        .ps-body {
+            padding: 14px 12px;
+            flex: 1;
+        }
+
+        .ps-msg {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.45);
+            margin-bottom: 12px;
+        }
+
+        .ps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 7px;
+        }
+
+        .ps-cat {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 9px 5px;
+            text-align: center;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .ps-cat.on {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .ps-cat-em {
+            font-size: 17px;
+            display: block;
+        }
+
+        .ps-cat-nm {
+            font-size: 7px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-top: 4px;
+            font-weight: 600;
+            display: block;
+            line-height: 1.3;
+        }
+
+        .ps-dive {
+            margin-top: 13px;
+            background: var(--cyan);
+            color: #000;
+            border-radius: 20px;
+            padding: 10px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 800;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Orbit emojis */
+        .orbit-em {
+            position: absolute;
+            font-size: 2rem;
+            animation: floaty 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 14px rgba(0, 247, 255, 0.35));
+            pointer-events: none;
+        }
+
+        @keyframes floaty {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-6deg);
+            }
+
+            50% {
+                transform: translateY(-18px) rotate(6deg);
+            }
+        }
+
+        /* ===== WHY SECTION ===== */
+        #why {
+            background: linear-gradient(180deg, transparent, rgba(0, 247, 255, 0.018) 50%, transparent);
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px 26px;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            border-color: rgba(0, 247, 255, 0.22);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+        }
+
+        .card-icon {
+            font-size: 2.4rem;
+            margin-bottom: 16px;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.65;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            position: relative;
+        }
+
+        .steps::after {
+            content: '';
+            position: absolute;
+            top: 42px;
+            left: calc(12.5% + 12px);
+            right: calc(12.5% + 12px);
+            height: 2px;
+            background: linear-gradient(90deg, var(--cyan), var(--green));
+            opacity: 0.22;
+            pointer-events: none;
+        }
+
+        /* ===== VOICE SECTION ===== */
+        #voice {
+            background: linear-gradient(135deg, rgba(179, 77, 255, 0.04), rgba(255, 64, 166, 0.04));
+        }
+
+        .voice-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .voice-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(179, 77, 255, 0.12);
+            border: 1px solid rgba(179, 77, 255, 0.3);
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--purple);
+            margin-bottom: 20px;
+        }
+
+        .voice-title {
+            font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+            margin-bottom: 18px;
+        }
+
+        .voice-sub {
+            font-size: 1rem;
+            color: var(--muted);
+            margin-bottom: 32px;
+            line-height: 1.72;
+        }
+
+        .voice-points {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .voice-points li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            font-size: 0.95rem;
+        }
+
+        .vp-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            background: rgba(179, 77, 255, 0.12);
+        }
+
+        .vp-text strong {
+            display: block;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        .vp-text span {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .voice-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .voice-card-demo {
+            background: var(--card-bg);
+            border: 1px solid rgba(179, 77, 255, 0.25);
+            border-radius: 20px;
+            padding: 22px 24px;
+            transition: transform 0.3s;
+        }
+
+        .voice-card-demo:hover {
+            transform: translateY(-4px);
+        }
+
+        .vcd-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .vcd-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .vcd-label {
+            font-size: 0.72rem;
+            color: var(--dim);
+            margin-bottom: 2px;
+        }
+
+        .vcd-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .vcd-wave {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 32px;
+        }
+
+        .wave-bar {
+            width: 4px;
+            background: var(--purple);
+            border-radius: 2px;
+            animation: wave 1.2s ease-in-out infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes wave {
+
+            0%,
+            100% {
+                height: 6px;
+            }
+
+            50% {
+                height: 100%;
+            }
+        }
+
+        .pro-voice-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, var(--magenta), var(--orange));
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-top: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        @media (max-width: 960px) {
+            .voice-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-num {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--cyan), var(--green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: #000;
+            margin: 0 auto 20px;
+        }
+
+        .step h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* ===== SKILL CATEGORIES ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 26px 22px;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.35s, background 0.25s;
+            cursor: default;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            border: 1px solid var(--cc, var(--cyan));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(255, 255, 255, 0.09);
+        }
+
+        .skill-card:hover::before {
+            opacity: 1;
+        }
+
+        .skill-card:hover {
+            box-shadow: 0 20px 56px rgba(0, 0, 0, 0.4), 0 0 40px var(--gc, rgba(0, 247, 255, 0.08));
+        }
+
+        .sk-em {
+            font-size: 2.6rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .sk-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--cc, var(--cyan));
+            margin-bottom: 6px;
+        }
+
+        .sk-desc {
+            font-size: 0.83rem;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        .sk-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            padding: 4px 12px;
+            font-size: 0.73rem;
+            font-weight: 700;
+            color: var(--cc, var(--cyan));
+        }
+
+        /* ===== ADVENTURES ===== */
+        #adventures {
+            background: linear-gradient(180deg, transparent, rgba(56, 255, 18, 0.018) 50%, transparent);
+        }
+
+        .adv-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 36px;
+        }
+
+        .adv-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 22px 18px;
+            transition: transform 0.25s, border-color 0.25s;
+        }
+
+        .adv-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.22);
+        }
+
+        .adv-top {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 10px;
+        }
+
+        .adv-em {
+            font-size: 1.9rem;
+            flex-shrink: 0;
+        }
+
+        .adv-cat {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .adv-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .adv-coach {
+            font-size: 0.78rem;
+            color: var(--dim);
+        }
+
+        .free-tag {
+            display: inline-block;
+            background: var(--green);
+            color: #000;
+            font-size: 0.63rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+
+        .adv-more {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .adv-more strong {
+            color: var(--cyan);
+        }
+
+        /* ===== FEATURES ===== */
+        .feat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .feat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 28px 24px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .feat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 247, 255, 0.22);
+        }
+
+        .feat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.45rem;
+            margin-bottom: 16px;
+            background: rgba(0, 247, 255, 0.08);
+        }
+
+        .feat-card h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .feat-card p {
+            color: var(--muted);
+            font-size: 0.88rem;
+            line-height: 1.65;
+        }
+
+        /* ===== PRO ===== */
+        #pro {
+            background: linear-gradient(180deg, transparent, rgba(255, 64, 166, 0.025) 50%, transparent);
+        }
+
+        .pro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            max-width: 840px;
+            margin: 0 auto;
+        }
+
+        .plan {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 36px 30px;
+        }
+
+        .plan.featured {
+            background: linear-gradient(150deg, rgba(255, 64, 166, 0.12), rgba(255, 95, 31, 0.07));
+            border-color: rgba(255, 64, 166, 0.38);
+            position: relative;
+        }
+
+        .plan-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--magenta), var(--orange));
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 5px 18px;
+            border-radius: 100px;
+            white-space: nowrap;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .plan-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .plan-price {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .plan-note {
+            font-size: 0.82rem;
+            color: var(--dim);
+            margin-bottom: 26px;
+        }
+
+        .plan-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .plan-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.88rem;
+        }
+
+        .chk {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.68rem;
+            margin-top: 1px;
+        }
+
+        .chk-g {
+            background: rgba(56, 255, 18, 0.13);
+            color: var(--green);
+        }
+
+        .chk-p {
+            background: rgba(255, 64, 166, 0.13);
+            color: var(--magenta);
+        }
+
+        .plan-btn {
+            display: block;
+            text-align: center;
+            padding: 14px;
+            border-radius: 100px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 0.92rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .plan-btn-outline {
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: var(--muted);
+        }
+
+        .plan-btn-outline:hover {
+            border-color: rgba(255, 255, 255, 0.36);
+            color: var(--text);
+        }
+
+        .plan-btn-filled {
+            background: linear-gradient(135deg, var(--magenta), var(--orange));
+            color: #fff;
+            box-shadow: 0 0 36px rgba(255, 64, 166, 0.28);
+        }
+
+        .plan-btn-filled:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 56px rgba(255, 64, 166, 0.44);
+        }
+
+        .plan-btn-soon {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.14);
+            color: var(--muted);
+            box-shadow: none;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .pro-footnote {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 0.82rem;
+            color: var(--dim);
+        }
+
+        /* ===== SAFETY ===== */
+        .safety-box {
+            background: linear-gradient(135deg, rgba(56, 255, 18, 0.04), rgba(0, 247, 255, 0.04));
+            border: 1px solid rgba(56, 255, 18, 0.14);
+            border-radius: 28px;
+            padding: 60px;
+        }
+
+        .safety-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 44px;
+        }
+
+        .safety-item {
+            text-align: center;
+        }
+
+        .safety-em {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+        }
+
+        .safety-item h4 {
+            font-size: 0.92rem;
+            margin-bottom: 6px;
+        }
+
+        .safety-item p {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .dl-fine {
+            margin-top: 18px;
+            font-size: 0.78rem;
+            color: var(--dim);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            padding: 44px 0;
+        }
+
+        .foot-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .foot-copy {
+            font-size: 0.78rem;
+            color: var(--dim);
+            margin-top: 4px;
+        }
+
+        .foot-links {
+            display: flex;
+            gap: 22px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .foot-links a {
+            color: var(--dim);
+            text-decoration: none;
+            font-size: 0.83rem;
+            transition: color 0.2s;
+        }
+
+        .foot-links a:hover {
+            color: var(--cyan);
+        }
+
+        /* ===== REVEAL ANIMATION ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 960px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-sub {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-visual {
+                display: none;
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .steps::after {
+                display: none;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .adv-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .feat-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .pro-grid {
+                grid-template-columns: 1fr;
+                max-width: 460px;
+            }
+
+            .safety-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .safety-box {
+                padding: 40px 30px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-ham {
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            section {
+                padding: 68px 0;
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .adv-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .safety-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .dl-card {
+                padding: 38px 20px;
+            }
+
+            .foot-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .stat {
+                padding: 0 16px;
+            }
+
+            .waitlist-card {
+                padding: 38px 20px;
+            }
+
+            .waitlist-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .waitlist-input {
+                min-width: unset;
+            }
+        }
+
+        /* ===== WAITLIST ===== */
+        .waitlist-card {
+            background: linear-gradient(135deg, rgba(0, 247, 255, 0.07), rgba(56, 255, 18, 0.04));
+            border: 1px solid rgba(0, 247, 255, 0.18);
+            border-radius: 32px;
+            padding: 76px 56px;
+            max-width: 740px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .waitlist-card h2 {
+            font-size: clamp(1.9rem, 4vw, 2.9rem);
+            margin-bottom: 16px;
+        }
+
+        .waitlist-card>p {
+            color: var(--muted);
+            font-size: 1.05rem;
+            margin-bottom: 38px;
+        }
+
+        .waitlist-form {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 500px;
+            margin: 0 auto 12px;
+        }
+
+        .waitlist-input {
+            flex: 1;
+            min-width: 220px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 100px;
+            padding: 14px 22px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .waitlist-input::placeholder {
+            color: var(--dim);
+        }
+
+        .waitlist-input:focus {
+            border-color: var(--cyan);
+        }
+
+        .waitlist-msg {
+            font-size: 0.88rem;
+            min-height: 1.4em;
+        }
+
+        /* ===== APP PREVIEW CAROUSEL ===== */
+        #preview {
+            overflow: hidden;
+            background: linear-gradient(180deg, transparent, rgba(179,77,255,0.05) 50%, transparent);
+        }
+
+        .preview-track-wrap {
+            position: relative;
+            margin-top: 64px;
+        }
+
+        /* fade edges to hint more content */
+        .preview-track-wrap::before,
+        .preview-track-wrap::after {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 140px;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .preview-track-wrap::before {
+            left: 0;
+            background: linear-gradient(to right, var(--bg) 0%, transparent 100%);
+        }
+        .preview-track-wrap::after {
+            right: 0;
+            background: linear-gradient(to left, var(--bg) 0%, transparent 100%);
+        }
+
+        /* ambient floor glow */
+        .preview-glow-floor {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            height: 180px;
+            background: radial-gradient(ellipse, rgba(0,247,255,0.14) 0%, rgba(179,77,255,0.09) 40%, transparent 70%);
+            filter: blur(32px);
+            pointer-events: none;
+        }
+
+        .preview-track {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding: 48px 160px 64px;
+            cursor: grab;
+        }
+        .preview-track::-webkit-scrollbar { display: none; }
+        .preview-track.dragging { cursor: grabbing; scroll-snap-type: none; }
+
+        .pv-slide {
+            flex-shrink: 0;
+            scroll-snap-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .pv-frame {
+            width: 196px;
+            height: 423px;
+            background: #080e1c;
+            border-radius: 40px;
+            border: 2px solid rgba(255,255,255,0.11);
+            overflow: hidden;
+            position: relative;
+            box-shadow:
+                inset 0 0 0 1px rgba(255,255,255,0.06),
+                0 30px 60px rgba(0,0,0,0.55);
+            transition: transform 0.35s cubic-bezier(.22,.68,0,1.2),
+                        border-color 0.3s,
+                        box-shadow 0.3s;
+        }
+
+        /* Dynamic Island */
+        .pv-frame::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 72px; height: 22px;
+            background: #080e1c;
+            border-radius: 0 0 16px 16px;
+            z-index: 10;
+        }
+
+        .pv-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .pv-slide:hover .pv-frame {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(0,247,255,0.35);
+            box-shadow:
+                inset 0 0 0 1px rgba(255,255,255,0.08),
+                0 0 50px rgba(0,247,255,0.2),
+                0 50px 80px rgba(0,0,0,0.6);
+        }
+
+        /* ── Click pop + shake ── */
+        @keyframes pv-pop-shake {
+            0%   { transform: scale(1)    rotate(0deg); }
+            15%  { transform: scale(1.11) rotate(-3deg); }
+            30%  { transform: scale(1.13) rotate(3deg); }
+            45%  { transform: scale(1.10) rotate(-2deg); }
+            60%  { transform: scale(1.08) rotate(2deg); }
+            75%  { transform: scale(1.05) rotate(-1deg); }
+            100% { transform: scale(1)    rotate(0deg); }
+        }
+        @keyframes pv-glow-burst {
+            0%   { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06),
+                               0 30px 60px rgba(0,0,0,0.55); }
+            30%  { box-shadow: inset 0 0 0 2px rgba(0,247,255,0.7),
+                               0 0 90px rgba(0,247,255,0.55),
+                               0 0 30px rgba(179,77,255,0.4),
+                               0 50px 80px rgba(0,0,0,0.6); }
+            100% { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06),
+                               0 30px 60px rgba(0,0,0,0.55); }
+        }
+        .pv-slide.popped .pv-frame {
+            animation: pv-pop-shake 0.55s cubic-bezier(.36,.07,.19,.97) both,
+                       pv-glow-burst 0.7s ease-out both;
+            border-color: rgba(0,247,255,0.7);
+        }
+
+        .pv-cap {
+            text-align: center;
+            margin-top: 18px;
+        }
+        .pv-cap-icon { font-size: 1.1rem; display: block; margin-bottom: 4px; }
+        .pv-cap-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.74rem;
+            color: var(--muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        /* Arrow buttons */
+        .preview-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 8px;
+        }
+        .pv-arrow {
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.14);
+            background: rgba(255,255,255,0.05);
+            color: var(--text);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.2s, background 0.2s, transform 0.15s;
+            flex-shrink: 0;
+        }
+        .pv-arrow:hover {
+            border-color: var(--cyan);
+            background: rgba(0,247,255,0.1);
+            transform: scale(1.1);
+        }
+
+        /* Dot indicators */
+        .preview-dots {
+            display: flex;
+            gap: 7px;
+            align-items: center;
+        }
+        .pv-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.18);
+            cursor: pointer;
+            transition: background 0.25s, transform 0.25s, width 0.25s;
+            border: none;
+            padding: 0;
+        }
+        .pv-dot.active {
+            background: var(--cyan);
+            transform: scale(1.3);
+            width: 18px;
+            border-radius: 3px;
+        }
+
+        .preview-hint {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 0.76rem;
+            color: var(--dim);
+        }
+
+        @media (max-width: 600px) {
+            .preview-track { padding: 32px 44px 48px; gap: 16px; }
+            .pv-frame { width: 172px; height: 371px; border-radius: 36px; }
+            .preview-track-wrap::before,
+            .preview-track-wrap::after { width: 44px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="stars"></canvas>
+
+    <!-- ======= NAV ======= -->
+    <nav id="nav">
+        <a href="#" class="nav-brand">
+            <img src="assets/kaid-logo.png" alt="KAID Logo" class="nav-logo-img">
+            <div>
+                <div class="nav-brand-row">
+                    <span class="nav-rainbow">
+                        <span class="nav-kaid">KAID</span>
+                        <span class="nav-sep"> · </span>
+                        <span class="nav-sub">Kids AI Dojo</span>
+                    </span>
+                </div>
+                <div class="nav-powered">by TriVeer.AI</div>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#why">Why KAID</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#adventures">Adventures</a></li>
+            <li><a href="#preview">Preview</a></li>
+            <li><a href="#pro">Pro</a></li>
+            <li><a href="#waitlist">Waitlist</a></li>
+            <li><a href="#waitlist" class="btn btn-primary nav-cta">Join Waitlist →</a></li>
+        </ul>
+        <button class="nav-ham" id="navHam" aria-label="Open menu" aria-expanded="false">&#9776;</button>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="nav-mobile-menu" id="navMobileMenu">
+        <a href="#why"        class="nmm-link">Why KAID</a>
+        <a href="#skills"     class="nmm-link">Skills</a>
+        <a href="#adventures" class="nmm-link">Adventures</a>
+        <a href="#preview"    class="nmm-link">Preview</a>
+        <a href="#pro"        class="nmm-link">Pro</a>
+        <a href="#safety"     class="nmm-link">Safety</a>
+        <a href="#waitlist"   class="nmm-link nmm-cta">⬇ Join Waitlist</a>
+    </div>
+
+    <!-- ======= HERO ======= -->
+    <section id="hero">
+        <div class="container">
+            <div class="hero-inner">
+                <div>
+                    <div class="hero-badge">
+                        <div class="dot"></div>
+                        🚀 Launching in <span id="heroCountdown">…</span> · Beta Waitlist Open
+                    </div>
+                    <h1 class="hero-h1">
+                        Master the Human Skills<br>
+                        <span class="grad-cyan">AI Can Never Replace</span>
+                    </h1>
+                    <p class="hero-sub">
+                        KAID takes kids on 54 interactive adventures that build all 9 essential human skills — <span
+                            style="color:var(--cyan)">critical thinking</span>, <span style="color:#6699FF">emotional
+                            regulation</span>, <span style="color:var(--green)">growth mindset</span>, <span
+                            style="color:var(--magenta)">creativity</span>, <span
+                            style="color:var(--orange)">communication</span>, <span
+                            style="color:#4DD9F2">collaboration</span>, <span style="color:var(--purple)">digital
+                            literacy</span>, <span style="color:var(--yellow)">ethical reasoning</span>, and <span
+                            style="color:#00CCE6">inquiry</span> — the skills every child needs for the AI generation.
+                        Available on <strong style="color:var(--cyan)"> iPhone & iPad</strong>, launching on the Apple App Store.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#waitlist" class="btn btn-primary">⬇ Join the Waitlist</a>
+                        <a href="#skills" class="btn btn-ghost">Explore Skills ↓</a>
+                    </div>
+                    <p style="margin-top:16px;font-size:0.82rem;color:var(--dim)">Currently in Beta · App Store launch
+                        <strong style="color:var(--cyan)">13 Mar 2026</strong>
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-val">9</span>
+                            <span class="stat-lbl">Skill Categories</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-val">54</span>
+                            <span class="stat-lbl">Adventures</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-val">6+</span>
+                            <span class="stat-lbl">Age Group</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-val">$3.99</span>
+                            <span class="stat-lbl">Full Unlock</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <!-- Floating skill emojis -->
+                    <span class="orbit-em" style="top:4%;left:2%;animation-delay:0s">🧩</span>
+                    <span class="orbit-em" style="top:18%;right:0%;animation-delay:0.7s">💬</span>
+                    <span class="orbit-em" style="top:42%;left:-2%;animation-delay:1.4s">🌱</span>
+                    <span class="orbit-em" style="top:62%;right:1%;animation-delay:2.1s">🎨</span>
+                    <span class="orbit-em" style="bottom:14%;left:4%;animation-delay:2.8s">🔍</span>
+                    <span class="orbit-em" style="bottom:4%;right:3%;animation-delay:0.35s">⚖️</span>
+
+                    <!-- Phone mockup -->
+                    <div class="phone-outer">
+                        <div class="phone-frame">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="ps-bar">
+                                    <div class="ps-bar-title">🥋 KAID</div>
+                                    <div class="ps-bar-sub">What will you master today?</div>
+                                </div>
+                                <div class="ps-body">
+                                    <div class="ps-msg">Hey Hero! Pick your skills 👊</div>
+                                    <div class="ps-grid">
+                                        <div class="ps-cat on" style="border-color:#00F7FF">
+                                            <span class="ps-cat-em">🧩</span>
+                                            <span class="ps-cat-nm">Critical Thinking</span>
+                                        </div>
+                                        <div class="ps-cat" style="color:#6699FF">
+                                            <span class="ps-cat-em">💙</span>
+                                            <span class="ps-cat-nm">Emotional Reg.</span>
+                                        </div>
+                                        <div class="ps-cat on" style="border-color:#38FF12">
+                                            <span class="ps-cat-em">🌱</span>
+                                            <span class="ps-cat-nm">Growth Mindset</span>
+                                        </div>
+                                        <div class="ps-cat" style="color:#FF40A6">
+                                            <span class="ps-cat-em">🎨</span>
+                                            <span class="ps-cat-nm">Creativity</span>
+                                        </div>
+                                        <div class="ps-cat on" style="border-color:#FF5F1F">
+                                            <span class="ps-cat-em">💬</span>
+                                            <span class="ps-cat-nm">Communication</span>
+                                        </div>
+                                        <div class="ps-cat" style="color:#4DD9F2">
+                                            <span class="ps-cat-em">🤝</span>
+                                            <span class="ps-cat-nm">Collaboration</span>
+                                        </div>
+                                        <div class="ps-cat" style="color:#B34DFF">
+                                            <span class="ps-cat-em">💻</span>
+                                            <span class="ps-cat-nm">Digital Literacy</span>
+                                        </div>
+                                        <div class="ps-cat" style="color:#FDFF00">
+                                            <span class="ps-cat-em">⚖️</span>
+                                            <span class="ps-cat-nm">Ethical Reasoning</span>
+                                        </div>
+                                        <div class="ps-cat on" style="border-color:#00CCE6">
+                                            <span class="ps-cat-em">🔍</span>
+                                            <span class="ps-cat-nm">Inquiry</span>
+                                        </div>
+                                    </div>
+                                    <div class="ps-dive">Dive In! →</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= WHY ======= -->
+    <section id="why">
+        <div class="container text-center">
+            <div class="label">The AI Generation Challenge</div>
+            <h2 class="section-title">As AI gets smarter,<br><span class="grad-cyan">human skills matter more</span>
+            </h2>
+            <p class="section-sub">The children growing up today need a new kind of preparation — not just academic
+                knowledge, but the uniquely human abilities that technology can never replicate.</p>
+            <div class="why-grid">
+                <div class="card reveal">
+                    <div class="card-icon">🤖</div>
+                    <h3>AI handles the routine</h3>
+                    <p>Memorization, calculation, and rule-following are increasingly automated. What remains
+                        irreplaceable is creativity, empathy, and human judgment.</p>
+                </div>
+                <div class="card reveal" style="transition-delay:0.1s">
+                    <div class="card-icon">🧠</div>
+                    <h3>Social skills predict success</h3>
+                    <p>Research shows emotional intelligence, communication, and collaboration account for 85% of career
+                        success — far more than technical skills alone.</p>
+                </div>
+                <div class="card reveal" style="transition-delay:0.2s">
+                    <div class="card-icon">🌟</div>
+                    <h3>Kids learn best through play</h3>
+                    <p>KAID turns skill-building into an adventure. Kids practice real social scenarios in a fun,
+                        pressure-free environment and get instant, encouraging feedback.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= HOW IT WORKS ======= -->
+    <section id="how">
+        <div class="container text-center">
+            <div class="label">How It Works</div>
+            <h2 class="section-title">Four steps to skills<br><span class="grad-cyan">that last a lifetime</span></h2>
+            <p class="section-sub">Every adventure follows the same proven loop — from understanding a skill to
+                practising it for real.</p>
+            <div class="steps">
+                <div class="step card reveal">
+                    <div class="step-num">1</div>
+                    <h3>Pick Your Skills</h3>
+                    <p>Choose from 9 skill categories. Critical thinking? Creativity? Collaboration? Pick one or mix and
+                        match — every adventure is totally different.</p>
+                </div>
+                <div class="step card reveal" style="transition-delay:0.12s">
+                    <div class="step-num">2</div>
+                    <h3>Learn the Skill First</h3>
+                    <p>Before every adventure, kids get a fun, bite-sized intro — what the skill is, why it matters in
+                        real life, and a relatable example. No jargon, no lectures.</p>
+                </div>
+                <div class="step card reveal" style="transition-delay:0.24s">
+                    <div class="step-num">3</div>
+                    <h3>Play the Roleplay</h3>
+                    <p>Step into a real-world scenario with a unique coach character. Read the situation, make choices,
+                        and get instant encouraging feedback on every response.</p>
+                </div>
+                <div class="step card reveal" style="transition-delay:0.36s">
+                    <div class="step-num">4</div>
+                    <h3>Earn &amp; Level Up</h3>
+                    <p>Collect stars, win trophies, and unlock mastery titles like "Logic Legend" and "Zen Master" as
+                        real skills grow with every adventure completed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= SKILLS ======= -->
+    <section id="skills">
+        <div class="container text-center">
+            <div class="label">9 Skill Categories</div>
+            <h2 class="section-title">Every skill a future<br><span class="grad-cyan">leader needs</span></h2>
+            <p class="section-sub">Each category comes with 6 unique adventures, a dedicated coach character, and a
+                mastery title your child can earn.</p>
+            <div class="skills-grid">
+                <div class="skill-card reveal" style="--cc:#00F7FF;--gc:rgba(0,247,255,0.1)">
+                    <span class="sk-em">🧩</span>
+                    <div class="sk-name">Critical Thinking</div>
+                    <div class="sk-desc">Solve puzzles &amp; think logically</div>
+                    <span class="sk-badge">🏆 Become a Logic Legend</span>
+                </div>
+                <div class="skill-card reveal" style="--cc:#6699FF;--gc:rgba(102,153,255,0.1);transition-delay:0.06s">
+                    <span class="sk-em">💙</span>
+                    <div class="sk-name">Emotional Regulation</div>
+                    <div class="sk-desc">Manage feelings &amp; stay calm</div>
+                    <span class="sk-badge">🏆 Become a Zen Master</span>
+                </div>
+                <div class="skill-card reveal" style="--cc:#38FF12;--gc:rgba(56,255,18,0.1);transition-delay:0.12s">
+                    <span class="sk-em">🌱</span>
+                    <div class="sk-name">Growth Mindset</div>
+                    <div class="sk-desc">Learn from mistakes &amp; grow</div>
+                    <span class="sk-badge">🏆 Become a Growth Champion</span>
+                </div>
+                <div class="skill-card reveal" style="--cc:#FF40A6;--gc:rgba(255,64,166,0.1);transition-delay:0.18s">
+                    <span class="sk-em">🎨</span>
+                    <div class="sk-name">Creativity</div>
+                    <div class="sk-desc">Imagine, create &amp; innovate</div>
+                    <span class="sk-badge">🏆 Become a Creative Genius</span>
+                </div>
+                <div class="skill-card reveal" style="--cc:#FF5F1F;--gc:rgba(255,95,31,0.1);transition-delay:0.24s">
+                    <span class="sk-em">💬</span>
+                    <div class="sk-name">Communication</div>
+                    <div class="sk-desc">Express yourself clearly</div>
+                    <span class="sk-badge">🏆 Become a Word Wizard</span>
+                </div>
+                <div class="skill-card reveal" style="--cc:#4DD9F2;--gc:rgba(77,217,242,0.1);transition-delay:0.3s">
+                    <span class="sk-em">🤝</span>
+                    <div class="sk-name">Collaboration</div>
+                    <div class="sk-desc">Work well with others</div>
+                    <span class="sk-badge">🏆 Become a Team Captain</span>
+                </div>
+                <div class="skill-card reveal" style="--cc:#B34DFF;--gc:rgba(179,77,255,0.1);transition-delay:0.36s">
+                    <span class="sk-em">💻</span>
+                    <div class="sk-name">Digital Literacy</div>
+                    <div class="sk-desc">Be smart &amp; safe online</div>
+                    <span class="sk-badge">🏆 Become a Cyber Guardian</span>
+                </div>
+                <div class="skill-card reveal" style="--cc:#FDFF00;--gc:rgba(253,255,0,0.07);transition-delay:0.42s">
+                    <span class="sk-em">⚖️</span>
+                    <div class="sk-name">Ethical Reasoning</div>
+                    <div class="sk-desc">Make the right choices</div>
+                    <span class="sk-badge">🏆 Become a Moral Compass</span>
+                </div>
+                <div class="skill-card reveal" style="--cc:#00CCE6;--gc:rgba(0,204,230,0.1);transition-delay:0.48s">
+                    <span class="sk-em">🔍</span>
+                    <div class="sk-name">Inquiry</div>
+                    <div class="sk-desc">Ask great questions</div>
+                    <span class="sk-badge">🏆 Become a Curiosity Explorer</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= ADVENTURES ======= -->
+    <section id="adventures">
+        <div class="container text-center">
+            <div class="label">54 Unique Adventures</div>
+            <h2 class="section-title">Real scenarios.<br><span class="grad-yellow">Real skills.</span></h2>
+            <p class="section-sub">Every adventure puts your child in a real-world situation with a unique coach
+                character — and asks them to make choices that build lasting habits.</p>
+            <div class="adv-grid">
+                <div class="adv-card reveal">
+                    <div class="adv-top">
+                        <div class="adv-em">🏴‍☠️</div>
+                        <div>
+                            <div class="adv-cat" style="color:#00F7FF">🧩 Critical Thinking</div>
+                            <div class="adv-title">Decode the Treasure Map</div>
+                        </div>
+                    </div>
+                    <div class="adv-coach">Inspector Clue 🕵️</div>
+                    <span class="free-tag">FREE</span>
+                </div>
+                <div class="adv-card reveal" style="transition-delay:0.1s">
+                    <div class="adv-top">
+                        <div class="adv-em">🎬</div>
+                        <div>
+                            <div class="adv-cat" style="color:#6699FF">💙 Emotional Regulation</div>
+                            <div class="adv-title">Stage Fright Showdown</div>
+                        </div>
+                    </div>
+                    <div class="adv-coach">Coach Calm 🧘</div>
+                    <span class="free-tag">FREE</span>
+                </div>
+                <div class="adv-card reveal" style="transition-delay:0.2s">
+                    <div class="adv-top">
+                        <div class="adv-em">🧪</div>
+                        <div>
+                            <div class="adv-cat" style="color:#38FF12">🌱 Growth Mindset</div>
+                            <div class="adv-title">The Failed Experiment</div>
+                        </div>
+                    </div>
+                    <div class="adv-coach">Coach Bounce 🦘</div>
+                    <span class="free-tag">FREE</span>
+                </div>
+                <div class="adv-card reveal" style="transition-delay:0.05s">
+                    <div class="adv-top">
+                        <div class="adv-em">⚙️</div>
+                        <div>
+                            <div class="adv-cat" style="color:#FF40A6">🎨 Creativity</div>
+                            <div class="adv-title">Invent a New Game</div>
+                        </div>
+                    </div>
+                    <div class="adv-coach">Coach Veer 🎨</div>
+                    <span class="free-tag">FREE</span>
+                </div>
+                <div class="adv-card reveal" style="transition-delay:0.15s">
+                    <div class="adv-top">
+                        <div class="adv-em">🔒</div>
+                        <div>
+                            <div class="adv-cat" style="color:#B34DFF">💻 Digital Literacy</div>
+                            <div class="adv-title">The Online Friend</div>
+                        </div>
+                    </div>
+                    <div class="adv-coach">Coach Dean 💻</div>
+                    <span class="free-tag">FREE</span>
+                </div>
+                <div class="adv-card reveal" style="transition-delay:0.25s">
+                    <div class="adv-top">
+                        <div class="adv-em">🦊</div>
+                        <div>
+                            <div class="adv-cat" style="color:#FDFF00">⚖️ Ethical Reasoning</div>
+                            <div class="adv-title">The Found Wallet</div>
+                        </div>
+                    </div>
+                    <div class="adv-coach">Wise Fox 🦊</div>
+                    <span class="free-tag">FREE</span>
+                </div>
+            </div>
+            <p class="adv-more">…plus <strong>48 more adventures</strong> across all 9 categories, waiting in KAID Pro.
+            </p>
+        </div>
+    </section>
+
+    <!-- ======= FEATURES ======= -->
+    <section id="features">
+        <div class="container text-center">
+            <div class="label">Everything Included</div>
+            <h2 class="section-title">Built to make kids<br><span class="grad-pink">love learning</span></h2>
+            <p class="section-sub">Every feature is designed to keep kids engaged, motivated, and coming back for more.
+            </p>
+            <div class="feat-grid">
+                <div class="feat-card reveal">
+                    <div class="feat-icon">🎭</div>
+                    <h3>Interactive Roleplay</h3>
+                    <p>Kids step into real-world scenarios and choose how to respond — building instincts through guided
+                        practice, not lectures.</p>
+                </div>
+                <div class="feat-card reveal" style="transition-delay:0.1s">
+                    <div class="feat-icon">⚡</div>
+                    <h3>Instant Feedback</h3>
+                    <p>Every choice gets immediate, encouraging coaching that explains why one response is better —
+                        building understanding, not just habits.</p>
+                </div>
+                <div class="feat-card reveal" style="transition-delay:0.2s">
+                    <div class="feat-icon">🏆</div>
+                    <h3>Earn Rewards &amp; Level Up</h3>
+                    <p>Collect stars and trophies, unlock hero avatars, and earn mastery titles that celebrate real
+                        skill growth — kids stay motivated to keep going.</p>
+                </div>
+                <div class="feat-card reveal" style="transition-delay:0.05s">
+                    <div class="feat-icon">📖</div>
+                    <h3>Skill Introductions</h3>
+                    <p>Every adventure begins with a kid-friendly intro — what the skill is, why it matters, and a
+                        real-life example — so kids understand what they're actually learning.</p>
+                </div>
+                <div class="feat-card reveal" style="transition-delay:0.15s">
+                    <div class="feat-icon">🔊</div>
+                    <h3>Premium &amp; Personal Voice</h3>
+                    <p>Use high-quality AI voices or record a parent's own voice for a warm, familiar coaching
+                        experience that kids instantly love.</p>
+                </div>
+                <div class="feat-card reveal" style="transition-delay:0.25s">
+                    <div class="feat-icon">🧙</div>
+                    <h3>9 Unique Skill Coaches</h3>
+                    <p>Every skill category has its own coach with a personality kids remember — Inspector Clue 🕵️, Coach Calm 🧘, Coach Bounce 🦘, Wise Fox 🦊, Builder Bo 🏗️, Captain Connect 🤝, Coach Veer 🎨, Coach Dean 💻, and Professor Query 🔬.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= APP PREVIEW ======= -->
+    <section id="preview">
+        <div class="text-center" style="padding:0 20px">
+            <div class="label">✨ Real App · Real Experience</div>
+            <h2 class="section-title">See KAID<br><span class="grad-cyan">in action</span></h2>
+            <p class="section-sub">Every screen crafted for kids — intuitive, engaging, and beautifully designed for iPhone &amp; iPad.</p>
+        </div>
+
+        <div class="preview-track-wrap">
+            <div class="preview-glow-floor"></div>
+
+            <div class="preview-track" id="pvTrack">
+
+                <!-- 1 — Splash / Landing -->
+                <div class="pv-slide">
+                    <div class="pv-frame">
+                        <img src="assets/screenshots/landing.png" alt="KAID — Welcome screen" draggable="false">
+                    </div>
+                    <div class="pv-cap">
+                        <span class="pv-cap-icon">🥋</span>
+                        <span class="pv-cap-title">Welcome to KAID</span>
+                    </div>
+                </div>
+
+                <!-- 2 — Onboarding -->
+                <div class="pv-slide">
+                    <div class="pv-frame">
+                        <img src="assets/screenshots/screen-onboarding.png" alt="KAID — Create your hero" draggable="false">
+                    </div>
+                    <div class="pv-cap">
+                        <span class="pv-cap-icon">🥷</span>
+                        <span class="pv-cap-title">Create your hero</span>
+                    </div>
+                </div>
+
+                <!-- 3 — Home / Categories -->
+                <div class="pv-slide">
+                    <div class="pv-frame">
+                        <img src="assets/screenshots/screen-home.png" alt="KAID — 9 skill categories" draggable="false">
+                    </div>
+                    <div class="pv-cap">
+                        <span class="pv-cap-icon">🏠</span>
+                        <span class="pv-cap-title">Choose your skill</span>
+                    </div>
+                </div>
+
+                <!-- 4 — Live roleplay -->
+                <div class="pv-slide">
+                    <div class="pv-frame">
+                        <img src="assets/screenshots/screen-roleplay.png" alt="KAID — Interactive roleplay scenario" draggable="false">
+                    </div>
+                    <div class="pv-cap">
+                        <span class="pv-cap-icon">🎭</span>
+                        <span class="pv-cap-title">Live roleplay</span>
+                    </div>
+                </div>
+
+                <!-- 5 — Results / Stars -->
+                <div class="pv-slide">
+                    <div class="pv-frame">
+                        <img src="assets/screenshots/screen-results.png" alt="KAID — Stars and skill feedback" draggable="false">
+                    </div>
+                    <div class="pv-cap">
+                        <span class="pv-cap-icon">⭐</span>
+                        <span class="pv-cap-title">Earn stars</span>
+                    </div>
+                </div>
+
+                <!-- 6 — Trophy room -->
+                <div class="pv-slide">
+                    <div class="pv-frame">
+                        <img src="assets/screenshots/screen-trophies.png" alt="KAID — Trophy room and rewards" draggable="false">
+                    </div>
+                    <div class="pv-cap">
+                        <span class="pv-cap-icon">🏆</span>
+                        <span class="pv-cap-title">Trophy room</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="preview-controls">
+            <button class="pv-arrow" id="pvPrev" aria-label="Previous">&#8592;</button>
+            <div class="preview-dots" id="pvDots"></div>
+            <button class="pv-arrow" id="pvNext" aria-label="Next">&#8594;</button>
+        </div>
+        <p class="preview-hint">Swipe or drag to explore · Screenshots from the live beta</p>
+
+        <script>
+        (function () {
+            const track  = document.getElementById('pvTrack');
+            const slides = track.querySelectorAll('.pv-slide');
+            const dotsEl = document.getElementById('pvDots');
+            const prevBtn = document.getElementById('pvPrev');
+            const nextBtn = document.getElementById('pvNext');
+            const N = slides.length;
+            let current = 0;
+
+            /* Build dots */
+            slides.forEach((_, i) => {
+                const d = document.createElement('button');
+                d.className = 'pv-dot' + (i === 0 ? ' active' : '');
+                d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                d.addEventListener('click', () => goTo(i));
+                dotsEl.appendChild(d);
+            });
+
+            function goTo(idx) {
+                idx = Math.max(0, Math.min(N - 1, idx));
+                slides[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                setCurrent(idx);
+            }
+
+            function setCurrent(idx) {
+                current = idx;
+                dotsEl.querySelectorAll('.pv-dot').forEach((d, i) =>
+                    d.classList.toggle('active', i === idx));
+            }
+
+            prevBtn.addEventListener('click', () => goTo(current - 1));
+            nextBtn.addEventListener('click', () => goTo(current + 1));
+
+            /* Update dot on scroll */
+            let scrollTimer;
+            track.addEventListener('scroll', () => {
+                clearTimeout(scrollTimer);
+                scrollTimer = setTimeout(() => {
+                    const center = track.scrollLeft + track.clientWidth / 2;
+                    let closest = 0, minDist = Infinity;
+                    slides.forEach((s, i) => {
+                        const dist = Math.abs(s.offsetLeft + s.offsetWidth / 2 - center);
+                        if (dist < minDist) { minDist = dist; closest = i; }
+                    });
+                    setCurrent(closest);
+                }, 80);
+            });
+
+            /* Mouse drag to scroll */
+            let isDown = false, startX, startScroll, didDrag = false;
+            track.addEventListener('mousedown', e => {
+                isDown = true; didDrag = false;
+                track.classList.add('dragging');
+                startX = e.pageX - track.offsetLeft;
+                startScroll = track.scrollLeft;
+            });
+            document.addEventListener('mouseup', () => {
+                isDown = false;
+                track.classList.remove('dragging');
+            });
+            track.addEventListener('mousemove', e => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - track.offsetLeft;
+                const dist = x - startX;
+                if (Math.abs(dist) > 4) didDrag = true;
+                track.scrollLeft = startScroll - dist * 1.4;
+            });
+
+            /* Click pop — only fires if user didn't drag */
+            slides.forEach(slide => {
+                slide.addEventListener('click', () => {
+                    if (didDrag) return;
+                    slide.classList.remove('popped');
+                    void slide.offsetWidth; /* reflow to restart animation */
+                    slide.classList.add('popped');
+                    slide.addEventListener('animationend', () =>
+                        slide.classList.remove('popped'), { once: true });
+                });
+            });
+        }());
+        </script>
+    </section>
+
+    <!-- ======= VOICE ======= -->
+    <section id="voice">
+        <div class="container">
+            <div class="voice-inner">
+                <div class="reveal">
+                    <div class="voice-tag">🎙️ Pro Feature</div>
+                    <h2 class="voice-title">Your voice makes it<br><span class="grad-cyan" style="animation-delay:-4s">magical</span>
+                    </h2>
+                    <p class="voice-sub">
+                        Imagine your child hearing <em>your</em> voice guiding them through every adventure. KAID's
+                        Personal Voice feature lets parents record their own voice — or kids can use their own — turning
+                        every roleplay into a warm, personal experience unlike any other app. It's a quick, one-time
+                        voice training, and from then on KAID uses that personal voice as the coach's voice — making
+                        learning feel more fun, familiar, and relaxing.
+                    </p>
+                    <ul class="voice-points">
+                        <li>
+                            <div class="vp-icon">👨‍👩‍👧</div>
+                            <div class="vp-text">
+                                <strong>Use a parent's voice</strong>
+                                <span>Record mum or dad's voice once. Hear it coach, encourage, and celebrate every win
+                                    — making learning feel like a family moment.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="vp-icon">🎤</div>
+                            <div class="vp-text">
+                                <strong>Or kids can use their own voice</strong>
+                                <span>Kids record themselves as the coach — wildly fun, endlessly giggle-worthy, and
+                                    surprisingly great for building confidence.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="vp-icon">🔊</div>
+                            <div class="vp-text">
+                                <strong>Premium AI voices included</strong>
+                                <span>Choose from high-quality male or female AI voices for a polished, engaging
+                                    coaching experience right out of the box.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="vp-icon">🔒</div>
+                            <div class="vp-text">
+                                <strong>Private and secure</strong>
+                                <span>Voice recordings stay entirely within the app and are never shared or uploaded
+                                    anywhere.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="voice-visual reveal" style="transition-delay:0.15s">
+                    <!-- Parent voice card -->
+                    <div class="voice-card-demo">
+                        <div class="vcd-top">
+                            <div class="vcd-avatar" style="background:rgba(179,77,255,0.15)">👩</div>
+                            <div>
+                                <div class="vcd-label">PERSONAL VOICE · ACTIVE</div>
+                                <div class="vcd-name" style="color:var(--purple)">Mum's Voice 🎙️</div>
+                            </div>
+                        </div>
+                        <div class="vcd-wave">
+                            <div class="wave-bar" style="animation-delay:0s"></div>
+                            <div class="wave-bar" style="animation-delay:0.1s"></div>
+                            <div class="wave-bar" style="animation-delay:0.2s"></div>
+                            <div class="wave-bar" style="animation-delay:0.3s"></div>
+                            <div class="wave-bar" style="animation-delay:0.4s"></div>
+                            <div class="wave-bar" style="animation-delay:0.5s"></div>
+                            <div class="wave-bar" style="animation-delay:0.6s"></div>
+                            <div class="wave-bar" style="animation-delay:0.7s"></div>
+                            <div class="wave-bar" style="animation-delay:0.8s"></div>
+                            <div class="wave-bar" style="animation-delay:0.9s"></div>
+                            <div class="wave-bar" style="animation-delay:1.0s"></div>
+                            <div class="wave-bar" style="animation-delay:1.1s"></div>
+                        </div>
+                        <span class="pro-voice-tag">✨ KAID Pro Feature</span>
+                    </div>
+                    <!-- Kid's own voice card -->
+                    <div class="voice-card-demo" style="border-color:rgba(255,64,166,0.25)">
+                        <div class="vcd-top">
+                            <div class="vcd-avatar" style="background:rgba(255,64,166,0.12)">🥷</div>
+                            <div>
+                                <div class="vcd-label">PERSONAL VOICE · ACTIVE</div>
+                                <div class="vcd-name" style="color:var(--magenta)">Kids Own Voice 😄</div>
+                            </div>
+                        </div>
+                        <div class="vcd-wave">
+                            <div class="wave-bar" style="animation-delay:0.15s;background:var(--magenta)"></div>
+                            <div class="wave-bar" style="animation-delay:0.25s;background:var(--magenta)"></div>
+                            <div class="wave-bar" style="animation-delay:0.35s;background:var(--magenta)"></div>
+                            <div class="wave-bar" style="animation-delay:0.45s;background:var(--magenta)"></div>
+                            <div class="wave-bar" style="animation-delay:0.55s;background:var(--magenta)"></div>
+                            <div class="wave-bar" style="animation-delay:0.65s;background:var(--magenta)"></div>
+                            <div class="wave-bar" style="animation-delay:0.75s;background:var(--magenta)"></div>
+                            <div class="wave-bar" style="animation-delay:0.85s;background:var(--magenta)"></div>
+                            <div class="wave-bar" style="animation-delay:0.95s;background:var(--magenta)"></div>
+                            <div class="wave-bar" style="animation-delay:1.05s;background:var(--magenta)"></div>
+                        </div>
+                        <span class="pro-voice-tag"
+                            style="background:linear-gradient(135deg,var(--magenta),var(--orange))">✨ KAID Pro
+                            Feature</span>
+                    </div>
+                    <!-- Quote -->
+                    <div
+                        style="background:rgba(179,77,255,0.07);border:1px solid rgba(179,77,255,0.2);border-radius:16px;padding:20px 22px;">
+                        <p style="font-size:0.9rem;color:var(--muted);line-height:1.7;font-style:italic">"Hearing my own
+                            voice coaching my daughter made her light up. She keeps asking to do more adventures!" </p>
+                        <p style="font-size:0.78rem;color:var(--dim);margin-top:8px;font-style:normal">— Parent, Beta
+                            Tester</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= PRO ======= -->
+    <section id="pro">
+        <div class="container text-center">
+            <div class="label">Pricing</div>
+            <h2 class="section-title">Start free.<br><span class="grad-pink">Go further with Pro.</span></h2>
+            <p class="section-sub">Try 9 free adventures — one for every skill. Upgrade once to unlock everything for
+                your whole family.</p>
+            <div class="pro-grid">
+                <!-- Free -->
+                <div class="plan">
+                    <div class="plan-name">Free</div>
+                    <div class="plan-price">$0</div>
+                    <div class="plan-note">Forever free · No credit card needed</div>
+                    <ul class="plan-list">
+                        <li><span class="chk chk-g">✓</span><span>9 free adventures — one per skill category</span></li>
+                        <li><span class="chk chk-g">✓</span><span>All 9 skill categories accessible</span></li>
+                        <li><span class="chk chk-g">✓</span><span>Skill introductions before every roleplay</span></li>
+                        <li><span class="chk chk-g">✓</span><span>Full rewards &amp; progress tracking</span></li>
+                        <li><span class="chk chk-g">✓</span><span>Standard voice support</span></li>
+                    </ul>
+                    <a href="#waitlist" class="plan-btn plan-btn-outline">Join Waitlist</a>
+                </div>
+                <!-- Pro -->
+                <div class="plan featured">
+                    <div class="plan-badge">✨ Best Value for Families</div>
+                    <div class="plan-name">KAID Pro</div>
+                    <div class="plan-price grad-pink">$3.99</div>
+                    <div class="plan-note">One-time purchase · Family Sharing included</div>
+                    <ul class="plan-list">
+                        <li><span class="chk chk-p">✓</span><span><strong>All 54 roleplay adventures</strong>
+                                unlocked</span></li>
+                        <li><span class="chk chk-p">✓</span><span>Complete journey across all 9 skill categories</span>
+                        </li>
+                        <li><span class="chk chk-p">✓</span><span>All trophies, mastery titles &amp; hero rewards</span>
+                        </li>
+                        <li><span class="chk chk-p">✓</span><span><strong>Premium &amp; Personal Voice</strong> — use a
+                                parent's voice</span></li>
+                        <li><span class="chk chk-p">✓</span><span><strong>Family Sharing</strong> — one purchase, every
+                                family device</span></li>
+                    </ul>
+                    <a class="plan-btn plan-btn-soon">🔒 Coming to App Store · 13 Mar · $3.99</a>
+                </div>
+            </div>
+            <p class="pro-footnote">🔒 One-time payment. No subscriptions. No hidden fees. Apple Family Sharing
+                supported.</p>
+        </div>
+    </section>
+
+    <!-- ======= SAFETY ======= -->
+    <section id="safety">
+        <div class="container">
+            <div class="safety-box">
+                <div class="text-center">
+                    <div class="label">For Parents</div>
+                    <h2 class="section-title">Safe by design.<br><span class="grad-cyan">Private by default.</span></h2>
+                    <p class="section-sub" style="margin-bottom:0">KAID is built with your child's safety as the
+                        absolute top priority — no compromises.</p>
+                </div>
+                <div class="safety-grid">
+                    <div class="safety-item reveal">
+                        <div class="safety-em">🚫</div>
+                        <h4>Zero Data Collection</h4>
+                        <p>No personal information is ever collected from your child. None.</p>
+                    </div>
+                    <div class="safety-item reveal" style="transition-delay:0.1s">
+                        <div class="safety-em">🚫</div>
+                        <h4>No Ads. Ever.</h4>
+                        <p>KAID is completely ad-free. No banners, no pop-ups, no tracking.</p>
+                    </div>
+                    <div class="safety-item reveal" style="transition-delay:0.2s">
+                        <div class="safety-em">🛡️</div>
+                        <h4>Parental Gate</h4>
+                        <p>All settings and external links are locked behind a parental gate.</p>
+                    </div>
+                    <div class="safety-item reveal" style="transition-delay:0.3s">
+                        <div class="safety-em">👨‍👩‍👧</div>
+                        <h4>Family Sharing</h4>
+                        <p>One Pro purchase covers every device in your family via Apple Family Sharing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= WAITLIST ======= -->
+    <section id="waitlist">
+        <div class="container">
+            <div class="waitlist-card reveal">
+                <div class="label" style="display:block">🚀 Launching 13 Mar 2026 on the Apple App Store</div>
+                <h2>Give your child the<br><span class="grad-cyan">skills that matter most</span></h2>
+                <p>Currently in Beta — join the waitlist and be first to download the KAID app for iPhone &amp; iPad when it hits the Apple App Store on 13 Mar. One email. No spam.</p>
+                <form id="waitlist-form" class="waitlist-form" novalidate>
+                    <input type="email" id="wl-email" class="waitlist-input" placeholder="your@email.com"
+                        autocomplete="email" required />
+                    <button type="submit" id="wl-btn" class="btn btn-primary">Join Waitlist</button>
+                </form>
+                <p id="wl-msg" class="waitlist-msg" aria-live="polite"></p>
+                <p class="dl-fine"> iPhone & iPad · Apple App Store · No account required · Unsubscribe anytime</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        (function () {
+            const WORKER_URL = 'https://api.triveer.ai';
+            document.getElementById('waitlist-form').addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const email = document.getElementById('wl-email').value.trim();
+                const btn = document.getElementById('wl-btn');
+                const msg = document.getElementById('wl-msg');
+
+                msg.textContent = '';
+                btn.disabled = true;
+                btn.textContent = 'Joining…';
+
+                try {
+                    const res = await fetch(WORKER_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email }),
+                    });
+                    const data = await res.json();
+
+                    if (data.success) {
+                        msg.textContent = "You're on the list! We'll reach out before launch. 🎉";
+                        msg.style.color = '#4ade80';
+                        document.getElementById('wl-email').value = '';
+                        btn.textContent = '✓ Joined';
+                    } else {
+                        throw new Error(data.error || 'Unknown error');
+                    }
+                } catch {
+                    msg.textContent = 'Something went wrong. Please try again.';
+                    msg.style.color = '#f87171';
+                    btn.disabled = false;
+                    btn.textContent = 'Join Waitlist';
+                }
+            });
+        }());
+    </script>
+
+    <!-- ======= FOOTER ======= -->
+    <footer>
+        <div class="container">
+            <div class="foot-inner">
+                <div>
+                    <div style="display:flex;align-items:center;gap:14px">
+                        <img src="assets/kaid-logo.png" alt="KAID" style="height:40px;width:40px;object-fit:contain">
+                        <div style="width:1px;height:36px;background:rgba(255,255,255,0.1)"></div>
+                        <img src="assets/triveer-logo.png" alt="TriVeer.AI"
+                            style="height:36px;width:36px;object-fit:contain">
+                        <div>
+                            <div>
+                                <span class="nav-rainbow">
+                                    <span class="nav-kaid">KAID</span>
+                                    <span class="nav-sep"> · </span>
+                                    <span class="nav-sub">Kids AI Dojo</span>
+                                </span>
+                            </div>
+                            <div class="foot-copy">© 2026 TriVeer.AI · All rights reserved</div>
+                        </div>
+                    </div>
+                </div>
+                <ul class="foot-links">
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="mailto:kaid@triveer.ai">Contact</a></li>
+                    <li><a href="https://github.com/triveer-ai/kaid-public/issues" target="_blank"
+                            rel="noopener">Support</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ===== STARFIELD ===== */
+        (function () {
+            const canvas = document.getElementById('stars');
+            const ctx = canvas.getContext('2d');
+            let stars = [];
+            const N = 200;
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            function init() {
+                stars = Array.from({ length: N }, () => ({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 1.4 + 0.2,
+                    a: Math.random() * 0.65 + 0.1,
+                    speed: Math.random() * 0.28 + 0.04,
+                    tw: Math.random() * Math.PI * 2,
+                    tws: Math.random() * 0.018 + 0.004,
+                }));
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                stars.forEach(s => {
+                    s.tw += s.tws;
+                    const alpha = s.a * (0.55 + 0.45 * Math.sin(s.tw));
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(190,220,255,${alpha})`;
+                    ctx.fill();
+                    s.y -= s.speed;
+                    if (s.y + s.r < 0) { s.y = canvas.height + s.r; s.x = Math.random() * canvas.width; }
+                });
+                requestAnimationFrame(draw);
+            }
+
+            window.addEventListener('resize', () => { resize(); init(); });
+            resize(); init(); draw();
+        })();
+
+        /* ===== SCROLL REVEAL ===== */
+        (function () {
+            const els = document.querySelectorAll('.reveal');
+            const io = new IntersectionObserver(entries => {
+                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+            }, { threshold: 0.1 });
+            els.forEach(el => io.observe(el));
+        })();
+
+        /* ===== NAV SCROLL STATE ===== */
+        (function () {
+            const nav = document.getElementById('nav');
+            window.addEventListener('scroll', () => {
+                nav.classList.toggle('scrolled', window.scrollY > 40);
+            }, { passive: true });
+        })();
+
+        /* ===== LAUNCH COUNTDOWN ===== */
+        (function () {
+            const el = document.getElementById('heroCountdown');
+            const launch = new Date('2026-03-13T00:00:00Z');
+            function update() {
+                const diff = launch - new Date();
+                if (diff <= 0) { el.textContent = 'Now!'; return; }
+                const days  = Math.floor(diff / 864e5);
+                const hours = Math.floor((diff % 864e5) / 36e5);
+                el.textContent = days > 0 ? days + 'd ' + hours + 'h' : hours + 'h';
+                setTimeout(update, 60000);
+            }
+            update();
+        })();
+
+        /* ===== MOBILE NAV HAMBURGER ===== */
+        (function () {
+            const ham  = document.getElementById('navHam');
+            const menu = document.getElementById('navMobileMenu');
+            function close() {
+                menu.classList.remove('open');
+                ham.classList.remove('open');
+                ham.setAttribute('aria-expanded', 'false');
+                ham.innerHTML = '&#9776;';
+            }
+            ham.addEventListener('click', () => {
+                const opening = !menu.classList.contains('open');
+                if (opening) {
+                    menu.classList.add('open');
+                    ham.classList.add('open');
+                    ham.setAttribute('aria-expanded', 'true');
+                    ham.innerHTML = '&#10005;';
+                } else { close(); }
+            });
+            menu.querySelectorAll('.nmm-link').forEach(l => l.addEventListener('click', close));
+        })();
+    </script>
+
+</body>
+
+</html>
